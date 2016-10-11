@@ -1,6 +1,9 @@
 from openpyxl import *
 from openpyxl.cell.cell import *
+import codecs
 
+import sys
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 def excel_to_dict(file_url):
     #Initialization and Excel file opening
     #file_url = 'C:/Users/GAK/Desktop/test.xlsx'
@@ -22,25 +25,29 @@ def excel_to_dict(file_url):
             for row in range(2, rows):
                 index = column_letter + str(row) #index = 'AX' where X is the row index
                 name = ws[index].value
+               # name = name.decode('ISO-8859-1')
                 names.append(name)
         if column_letter == 'B': #B corresponds to Surname
             for row in range(2, rows):
                 index = column_letter + str(row) #index = 'BX' where X is the row index
                 surname = ws[index].value
+               # surname = surname.decode('ISO-8859-1')
                 surnames.append(surname)
         if column_letter == 'C': #C corresponds to Occupation
             for row in range(2, rows):
                 index = column_letter + str(row) #index = 'CX' where X is the row index
                 occupation = ws[index].value
+                #occupation = occupation.decode('ISO-8859-1')
                 occupations.append(occupation)
     #Using dictionary for better clarity, list of lists is fine. Note:
     print ("[+] Writing everything to a list of dictionaries")
     for i in range(0, len(names)): #len(names) is actually number of rows, it's done to iterate through the whole list
         dictionary = {
-            "Name": str(names[i]),
-            "Surname": str(surnames[i]),
-            "Occupation": str(occupations[i]),
+            "Name": names[i].encode('utf-8'),
+            "Surname": surnames[i].encode('utf-8'),
+            "Occupation": occupations[i].encode('utf-8'),
         }
+       # print '[!] DEBUG'+str(names[i].decode("utf-8"))
         full.append(dictionary)
     print ("[+] Opening file..."),
     attendees = open('Attendees.txt','w')

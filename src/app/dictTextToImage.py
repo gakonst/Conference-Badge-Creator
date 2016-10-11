@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 from excelParse import *
 from PIL import ImageFont
@@ -21,6 +23,8 @@ def dict_to_img(image_dir,action):
     # image_dir = 'test.jpg'
     font = ImageFont.truetype(font_dir, sizefont)
     fontoccupation = ImageFont.truetype(font_dir, int(sizefontoccupation))
+    #occupations=[u'Φοιτητής',u'Διδακτορικός',u'Καθηγητής']
+    occupations=['STUDENT','TEACHER','VOLUNTEER']
     # Dict from Excel
     print(
         "\nReading dictionary from file. Each identity read from the excel file is now being written on the template. Please wait...")
@@ -35,33 +39,34 @@ def dict_to_img(image_dir,action):
                 mkdir("Badges Wave 2016")
             os.chdir("Badges Wave 2016")
             read = True
-            if not os.path.exists("STUDENT"):
-                mkdir("STUDENT")
-            if not os.path.exists("TEACHER"):
-                mkdir("TEACHER")
-            if not os.path.exists("VOLUNTEER"):
-                mkdir("VOLUNTEER")
+            if not os.path.exists(occupations[0]):
+                mkdir(occupations[0])
+            if not os.path.exists(occupations[1]):
+                mkdir(occupations[1])
+            if not os.path.exists(occupations[2]):
+                mkdir(occupations[2])
 
         # Initializing needed variables and opening template.
         badgetemplate = Image.open(image_dir)
         width, height = badgetemplate.size  # Get image width-height to calculate coordinates for centered text
-        fullname = dict[i]['Name'] + " " + dict[i]['Surname']  # 'Name Surname'
-        occupation = dict[i]['Occupation']  # 'Occupation' for each person
+        fullname = dict[i]['Name'].decode('UTF-8') + " " + dict[i]['Surname'].decode('UTF-8')  # 'Name Surname'
+        occupation = dict[i]['Occupation']        # 'Occupation' for each person
+        occupation = occupation.decode('UTF-8')
         occupationlength, occupationheight = font.getsize(occupation)
         draw = ImageDraw.Draw(badgetemplate)
         namelength, nameheight = draw.textsize(fullname, font)  # Get size of string in pixels.
         # Calculate center by: padding1+textLength+padding2 \= totalWidth, where padding1 = padding 2
         xPadding = (width - namelength) / 2
         yPadding = (height - nameheight) / 2  # Ditto
-        draw.text((xPadding, yPadding), str(fullname), colorName, font=font)
+        draw.text((xPadding, yPadding), fullname, colorName, font=font)
         occupationlength, occupationheight = draw.textsize(occupation, fontoccupation)
         xPadding = (width - occupationlength) / 2
         yPadding = (height / 2) + 50
-        draw.text((xPadding, yPadding), str(occupation), coloroccupation,
+        draw.text((xPadding, yPadding), occupation, coloroccupation,
                   font=fontoccupation)  # yPadding is static here because
         # we want it to be independent of text height, always in the same spot.
         # Saving...
-        filename = dict[i]['Name'] + "_" + dict[i]['Surname'] + ".jpeg"
+        filename = dict[i]['Name'].decode('UTF-8') + "_" + dict[i]['Surname'].decode('UTF-8') + ".jpeg"
 
         print("[+] Saving: " + filename)
         # Save each file to corresponding directory, based on their occupation
@@ -69,12 +74,13 @@ def dict_to_img(image_dir,action):
         # Action = 2 means if a file already exists do not overwrite it
         # Overwrite has Yes as default
         scriptDir = getcwd()
-        if occupation == 'STUDENT':
-            path = os.path.join(scriptDir, "STUDENT/")
-            path = os.path.join(path, filename)
+       # path3 = os.path.join(scriptDir,occupations)
+        if occupation == occupations[0]:
+            path1 = os.path.join(scriptDir, occupations[0])
+            path1 = os.path.join(path1, filename)
             if (action==1):
-                badgetemplate.save(path)
-            elif os.path.isfile(path):
+                badgetemplate.save(path1)
+            elif os.path.isfile(path1):
                 if(action == 2):
                     continue
                 print ("[!] File Exists.")
@@ -84,20 +90,20 @@ def dict_to_img(image_dir,action):
                     overwrite = raw_input("Overwrite? [Y] > ")
                 if str(overwrite) in ['y','Y','']:
                     print ("[+] Overwriting "+filename)
-                    badgetemplate.save(path)
+                    badgetemplate.save(path1)
                 else:
                     print ("[-] Skipping...")
                     continue
             else:
-                badgetemplate.save(path)
+                badgetemplate.save(path1)
 
-        elif occupation == 'TEACHER':
-            path = os.path.join(scriptDir, "TEACHER/")
-            path = os.path.join(path, filename)
+        elif occupation ==  occupations[1]:
+            path2 = os.path.join(scriptDir,  occupations[1])
+            path2 = os.path.join(path2, filename)
             if (action==1):
-                badgetemplate.save(path)
+                badgetemplate.save(path2)
 
-            elif os.path.isfile(path):
+            elif os.path.isfile(path2):
                 if (action == 2):
                     continue
                 print("[!] File Exists.")
@@ -107,18 +113,18 @@ def dict_to_img(image_dir,action):
                     overwrite = raw_input("Overwrite? [Y] > ")
                 if str(overwrite) in ['y', 'Y','']:
                     print("[+] Overwriting " + filename)
-                    badgetemplate.save(path)
+                    badgetemplate.save(path2)
                 else:
                     print("[-] Skipping...")
                     continue
             else:
-                badgetemplate.save(path)
-        elif occupation == 'VOLUNTEER':
-            path = os.path.join(scriptDir, "VOLUNTEER/")
-            path = os.path.join(path, filename)
+                badgetemplate.save(path2)
+        elif occupation == occupations[2]:
+            path3 = os.path.join(scriptDir,  occupations[2])
+            path3 = os.path.join(path3, filename)
             if (action==1):
-                badgetemplate.save(path)
-            elif os.path.isfile(path):
+                badgetemplate.save(path3)
+            elif os.path.isfile(path3):
                 if (action == 2):
                     continue
                 print("[!] File Exists.")
@@ -128,11 +134,13 @@ def dict_to_img(image_dir,action):
                     overwrite = raw_input("Overwrite? [Y] > ")
                 if str(overwrite) in ['y', 'Y','']:
                     print("[+] Overwriting " + filename)
-                    badgetemplate.save(path)
+                    badgetemplate.save(path3)
                 else:
                     print("[-] Skipping...")
                     continue
             else:
-                badgetemplate.save(path)
-
+                badgetemplate.save(path3)
+        #else:
+         #  path3 = os.path.join(path3, filename)
+          # badgetemplate.save(path3)
     print("[!] Done. Exiting.")
