@@ -20,7 +20,7 @@ group = parser.add_mutually_exclusive_group()
 parser.add_argument("-e","--exceldir", type=str, help='Absolute path to the excel file.')
 parser.add_argument("-t","--template",type=str,help='Absolute path to the template image file.')
 group.add_argument("-o","--overwrite",help='Use when you want to overwrite all files if they exist',action="store_true")
-group.add_argument("-s","--skip",help='Use when don\'t want to overwrite existing files',action="store_true")
+group.add_argument("-s","--skip",help='Use when you don\'t want to overwrite existing files',action="store_true")
 option = parser.parse_args()
 
 def is_valid_file(parser,arg):
