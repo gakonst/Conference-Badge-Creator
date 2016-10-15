@@ -1,6 +1,4 @@
-import sys
 import argparse
-import os
 from argparse import RawTextHelpFormatter
 
 import dictTextToImage
@@ -17,17 +15,12 @@ parser = argparse.ArgumentParser(description="""
     Fast, Easy, Open Source.
     """, epilog='Enjoy!', formatter_class=RawTextHelpFormatter)
 group = parser.add_mutually_exclusive_group()
-parser.add_argument("-e","--exceldir", type=str, help='Absolute path to the excel file.')
-parser.add_argument("-t","--template",type=str,help='Absolute path to the template image file.')
-group.add_argument("-o","--overwrite",help='Use when you want to overwrite all files if they exist',action="store_true")
-group.add_argument("-s","--skip",help='Use when you don\'t want to overwrite existing files',action="store_true")
+parser.add_argument("-e", "--exceldir", type=str, help='Absolute path to the excel file.')
+parser.add_argument("-t", "--template", type=str, help='Absolute path to the template image file.')
+group.add_argument("-o", "--overwrite", help='Use when you want to overwrite all files if they exist',
+                   action="store_true")
+group.add_argument("-s", "--skip", help='Use when you don\'t want to overwrite existing files', action="store_true")
 option = parser.parse_args()
-
-def is_valid_file(parser,arg):
-    if not os.path.exists(arg):
-        parser.error("The file %s does not exist!" % arg)
-    else:
-        parser.print_help()
 
 
 def badge_creator():
@@ -43,6 +36,8 @@ def badge_creator():
     else:
         print "Normal Mode: ON"
     excelParse.excel_to_dict(excel_dir)
-    dictTextToImage.dict_to_img(file_dir,action)
+    dictTextToImage.dictionary_to_img(file_dir, action)
+
+
 if __name__ == '__main__':
     badge_creator()
