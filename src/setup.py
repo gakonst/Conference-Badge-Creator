@@ -10,8 +10,8 @@ config = {
     'download_url': 'Where to download it.',
     'author_email': 'georgkonst@ece.auth.gr',
     'version': '1.0',
-    'install_requires': ['PIL','openpyxl'],
-    'packages': ['NAME'],
+    'install_requires': ['Pillow','openpyxl'],
+    'packages': [],
     'scripts': [],
     'name': 'Conference Badge Creator'
 }
