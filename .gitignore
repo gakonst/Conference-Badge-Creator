@@ -49,3 +49,5 @@ src/HDpng.png
 *.pyc
 src/app/Attendees.txt
 src/app/testEN.xlsx
+*.jpg
+*.jpeg

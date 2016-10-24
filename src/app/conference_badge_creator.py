@@ -1,8 +1,17 @@
 import argparse
 from argparse import RawTextHelpFormatter
-
+from os import *
 import dictTextToImage
 import excelParse
+import grid_print
+
+import os
+import sys
+
+
+def get_script_path():
+    return os.path.dirname(os.path.realpath(sys.argv[0]))
+
 
 parser = argparse.ArgumentParser(description="""
     Conference Badge Creator\n
@@ -26,6 +35,7 @@ option = parser.parse_args()
 def badge_creator():
     excel_dir = option.exceldir
     file_dir = option.template
+    validinputs = ['Y', 'y', 'n', 'N']
     action = 0
     if option.skip:
         action = 2
@@ -35,8 +45,31 @@ def badge_creator():
         print "Overwrite Mode: ON"
     else:
         print "Normal Mode: ON"
+    folders = raw_input("Group based on occupation > ")
+    while folders not in validinputs:
+        folders = raw_input("Try again\nGroup? > ")
+    if folders == 'Y' or folders == 'y':
+        folders = True
+    else:
+        folders = False
     excelParse.excel_to_dict(excel_dir)
-    dictTextToImage.dictionary_to_img(file_dir, action)
+    dictTextToImage.dictionary_to_img(file_dir, action, folders)
+    combine = raw_input("Do you want to combine all your files in a grid?\nCombine? [N] > ")
+    while str(combine) not in validinputs:
+        print "Invalid input. Try again."
+        combine = input("Combine? [N] > ")
+    if str(combine) == 'Y' or str(combine) == 'y':
+        grid_size = input("Input grid size > ")
+        # print "Current dir: "+getcwd()
+        # wavedir = os.path.join(get_script_path(),"Badges Wave 2016")
+        # print "Wave dir is "+wavedir
+        # chdir(wavedir)
+        # print "Current dir: "+getcwd()
+        for dir in listdir(getcwd()):
+            chdir(dir)
+            print "Combining files in directory: " + str(dir)
+            grid_print.combine_badges(grid_size)
+            chdir('..')
 
 
 if __name__ == '__main__':
