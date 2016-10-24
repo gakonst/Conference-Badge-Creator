@@ -16,7 +16,7 @@ def combine_badges(grid_size):
     #im1.close()
     dims = (grid_size * (badge_x + offset), grid_size * (badge_y + offset))
     # Todo make for wave directory
-    groups = 4 #Split in groups of 4
+    groups = grid_size*grid_size #Split in groups of 4
     x,y = 0,0
     usedfiles = []
     no_total_files = len(listdir(getcwd()))
@@ -47,15 +47,13 @@ def combine_badges(grid_size):
                 break
         page_number+=1
         #print ("Printing page:" + str(page_number))
-
-        filename = str(page_number)+".jpeg"
         occupationDir = getcwd()
+        occupationDir = path.split(occupationDir)[1]
+        filename = str(occupationDir)+"_"+str(page_number)+".jpeg"
         chdir('..')
         if not path.exists("Combined"):
             mkdir("Combined")
         chdir('Combined')
-        if path.exists(filename):
-            filename = str(page_number)+"_"+str(random.randint(1,100000))+".jpeg"
         page.save(filename,dpi=(300.0, 300.0))
         chdir('..')
         chdir(occupationDir)

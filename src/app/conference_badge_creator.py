@@ -4,13 +4,11 @@ from os import *
 import dictTextToImage
 import excelParse
 import grid_print
-
-import os
 import sys
 
 
 def get_script_path():
-    return os.path.dirname(os.path.realpath(sys.argv[0]))
+    return path.dirname(path.realpath(sys.argv[0]))
 
 
 parser = argparse.ArgumentParser(description="""
@@ -66,6 +64,8 @@ def badge_creator():
         # chdir(wavedir)
         # print "Current dir: "+getcwd()
         for dir in listdir(getcwd()):
+            if dir == 'Combined':
+                continue
             chdir(dir)
             print "Combining files in directory: " + str(dir)
             grid_print.combine_badges(grid_size)

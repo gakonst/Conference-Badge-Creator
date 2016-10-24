@@ -52,3 +52,6 @@ src/app/testEN.xlsx
 *.jpg
 *.jpeg
 *.pyc
+*.xml
+.idea/workspace.xml
+*.pyc

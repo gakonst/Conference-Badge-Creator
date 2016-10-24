@@ -97,6 +97,7 @@ def dictionary_to_img(image_dir, action,group):
         if len(occupation) > 25:
             sizefontoccupation = 0.63 * float(sizefontoccupation)
             x_padding = 55
+            occupation_y_padding += 5
         elif len(occupation)>20:
             sizefontoccupation = 0.76 * float(sizefontoccupation)
         fontoccupation = ImageFont.truetype(occupations_font_dir,int(sizefontoccupation))
@@ -109,7 +110,9 @@ def dictionary_to_img(image_dir, action,group):
         if university!='0':
             university_nl=university
             uni_words = university.split()
-            if len(university)>50:
+            if university=="THE AMERICAN COLLEGE OF THESSALONIKI":
+                university_nl = "THE AMERICAN\nCOLLEGE OF\nTHESSALONIKI"
+            elif len(university)>50:
                 university_nl = u"ΕΘΝΙΚΟ ΚΑΙ\nΚΑΠΟΔΙΣΤΡΙΑΚΟ ΠΑΝΕΠΙΣΤΗΜΙΟ\nΑΘΗΝΩΝ/ΑΡΙΣΤΟΤΕΛΕΙΟ\nΠΑΝΕΠΙΣΤΗΜΙΟ ΘΕΣΣΑΛΟΝΙΚΗΣ"
                 size_uni_font = 0.70 * float(size_uni_font)
             elif len(university) > 40:
@@ -117,7 +120,7 @@ def dictionary_to_img(image_dir, action,group):
                 size_uni_font = 0.75 * float(size_uni_font)
             elif len(university)>10:
                 university_nl = university[:10]+university[10:].replace(" ","\n")
-            if not group:
+            if not group and len(university)<12:
                 size_uni_font = 1.75 * float(size_uni_font)
             uni_font = ImageFont.truetype(uni_font_dir, int(size_uni_font))
             draw.text((x_padding, uni_y_padding), university_nl, black,
