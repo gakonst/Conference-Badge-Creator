@@ -51,3 +51,4 @@ src/app/Attendees.txt
 src/app/testEN.xlsx
 *.jpg
 *.jpeg
+*.pyc
