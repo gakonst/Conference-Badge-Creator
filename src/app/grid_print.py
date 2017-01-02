@@ -11,9 +11,7 @@ def get_script_path():
 
 def combine_badges(grid_size):
     offset = 10
-    #im1 = Image.open("IRO_GKRIMPIZI.jpg")
     badge_x, badge_y = 886,1276
-    #im1.close()
     dims = (grid_size * (badge_x + offset), grid_size * (badge_y + offset))
     # Todo make for wave directory
     groups = grid_size*grid_size #Split in groups of 4
