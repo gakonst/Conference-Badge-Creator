@@ -26,6 +26,9 @@ Final folder structure:
 Each one of the Foo Bar's will have his own folder along with other people who share the same occupation with them. This is done in order to ease the organizing of the badges post-print. The script also includes the option to combine each image to a grid of NxN size for ease at printing on various paper sizes.
 
 usage:
+
 python conference_badge_creator.py -t templateFile -e spreadsheetFile
+
 Use -h as an argument to see all the available options.
+
 Use absolute paths to the files in the arguments.
